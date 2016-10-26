@@ -3,6 +3,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "Globals.h"
+#include "Box2D/Box2D/Box2D.h"
 
 class PhysBody;
 
@@ -22,16 +23,14 @@ public:
 	p2List<PhysBody*> circles;
 	p2List<PhysBody*> boxes;
 	p2List<PhysBody*> ricks;
-	p2List<PhysBody*> contorn;
-	p2List<PhysBody*> conLV;
-	p2List<PhysBody*> conLT;
-	p2List<PhysBody*> conRT;
-	p2List<PhysBody*> conRTop;
-	p2List<PhysBody*> conMid;
+	PhysBody* contorn;
+	PhysBody* conLV;
+	PhysBody* conLT;
+	PhysBody* conRT;
+	PhysBody* conRTop;
+	PhysBody* conMid;
 	
-	p2List<PhysBody*> leftflip;
-	p2List<PhysBody*> rightflip;
-
+		
 	PhysBody* launcher;
 	PhysBody* ball;
 	PhysBody* conMiniButtonL;
@@ -40,7 +39,11 @@ public:
 	PhysBody* conButtonB;
 	PhysBody* conButtonV;
 	PhysBody* conButtonR;
+	PhysBody* rbumper;
+	PhysBody* lbumper;
 	
+	b2RevoluteJoint* l_flipper_joint=nullptr;
+	b2RevoluteJoint* r_flipper_joint=nullptr;
 
 	// Pivot 0, 0
 	int Pinbla[138] = {
@@ -270,26 +273,6 @@ public:
 		223, 313,
 		218, 319 };
 
-	int leftfliper[14] = {
-		206, 783,
-		205, 770,
-		141, 724,
-		132, 723,
-		122, 731,
-		124, 748,
-		195, 784
-	};
-
-	int rightfliper[16] = {
-		304, 723,
-		240, 766,
-		237, 776,
-		245, 781,
-		257, 779,
-		324, 748,
-		327, 732,
-		319, 722
-	};
 	int triangleTop[6] = {
 		65, 269,
 		31, 243,
@@ -321,6 +304,22 @@ public:
 		377, 171
 	};
 	
+	int bumperleft[8] = {
+		88, 570,
+		107, 632,
+		92, 636,
+		69, 568
+		
+	};
+
+	
+	
+	int bumperright[8] = {
+		357, 568,
+		339, 630,
+		355, 637,
+		369, 577
+	};
 	PhysBody* sensor;
 	bool sensed;
 

@@ -182,6 +182,72 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2Body
 
 	return pbody;
 }
+PhysBody* ModulePhysics::CreatePolygon(int x, int y, int* points, int size)
+{
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+	b2PolygonShape polygon;
+
+	b2Vec2* p = new b2Vec2[size / 2];
+
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+	polygon.Set(p, size / 2);
+
+	b2FixtureDef fixture;
+	fixture.density = 1.0f;
+	fixture.shape = &polygon;
+	b->CreateFixture(&fixture);
+
+	delete p;
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = 0;
+
+	return pbody;
+}
+b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float anchor_x, float anchor_y, int upper_angle, int lower_angle, int max_torque, int speed)
+{
+
+	b2RevoluteJointDef revoluteJointDef;
+	revoluteJointDef.bodyA = bodyA->body;
+	revoluteJointDef.bodyB = bodyB->body;
+	revoluteJointDef.collideConnected = false;
+	revoluteJointDef.type = e_revoluteJoint;
+	//el anchor de A es per defecte 0,0
+	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(anchor_x), PIXEL_TO_METERS(anchor_y));
+
+	if (lower_angle != NULL && upper_angle != NULL)
+	{
+		revoluteJointDef.enableLimit = true;
+		revoluteJointDef.lowerAngle = lower_angle * DEGTORAD;
+		revoluteJointDef.upperAngle = upper_angle * DEGTORAD;
+	}
+	else
+		revoluteJointDef.enableLimit = false;
+
+	if (max_torque != 0)
+	{
+		revoluteJointDef.enableMotor = true;
+		revoluteJointDef.maxMotorTorque = max_torque;
+		revoluteJointDef.motorSpeed = speed * DEGTORAD; //90 degrees per second
+	}
+	else
+		revoluteJointDef.enableMotor = false;
+
+
+	b2RevoluteJoint* revolute_joint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+
+	return revolute_joint;
+}
 
 // 
 update_status ModulePhysics::PostUpdate()

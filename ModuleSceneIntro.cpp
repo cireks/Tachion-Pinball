@@ -33,13 +33,13 @@ bool ModuleSceneIntro::Start()
 	sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 	
 
-	contorn.add(App->physics->CreateChain(-1, 0, Pinbla, 138, b2BodyType::b2_staticBody));
+	contorn=App->physics->CreateChain(-1, 0, Pinbla, 138, b2BodyType::b2_staticBody);
 
-	conLV.add(App->physics->CreateChain(0, 0, leftV, 112, b2BodyType::b2_staticBody));
-	conLT.add(App->physics->CreateChain(0, 0, leftT, 22, b2BodyType::b2_staticBody));
-	conRT.add(App->physics->CreateChain(0, 0, rightT, 26, b2BodyType::b2_staticBody));
-	conRTop.add(App->physics->CreateChain(0, 0, rightTop, 78, b2BodyType::b2_staticBody));
-	conMid.add(App->physics->CreateChain(0, 0, Mid, 54, b2BodyType::b2_staticBody));
+	conLV=App->physics->CreateChain(0, 0, leftV, 112, b2BodyType::b2_staticBody);
+	conLT=App->physics->CreateChain(0, 0, leftT, 22, b2BodyType::b2_staticBody);
+	conRT=App->physics->CreateChain(0, 0, rightT, 26, b2BodyType::b2_staticBody);
+	conRTop=App->physics->CreateChain(0, 0, rightTop, 78, b2BodyType::b2_staticBody);
+	conMid =App->physics->CreateChain(0, 0, Mid, 54, b2BodyType::b2_staticBody);
 
 	conButtonV=App->physics->CreateCircle(225, 267, 17, b2BodyType::b2_staticBody);
 	conButtonB=App->physics->CreateCircle(278, 218, 17, b2BodyType::b2_staticBody);
@@ -49,25 +49,46 @@ bool ModuleSceneIntro::Start()
 	conMiniButtonR=App->physics->CreateCircle(150, 349, 8, b2BodyType::b2_staticBody);
 	conMiniButtonT=App->physics->CreateCircle(152, 306, 8, b2BodyType::b2_staticBody);
 
-	leftflip.add(App->physics->CreateChain(0, 0, leftfliper, 14, b2BodyType::b2_staticBody));
-	rightflip.add(App->physics->CreateChain(0, 0, rightfliper, 16, b2BodyType::b2_staticBody));
+	
+	
+	rbumper = App->physics->CreateChain(0, 0, bumperright, 8, b2BodyType::b2_staticBody);
+	lbumper= App->physics->CreateChain(0, 0, bumperleft, 8, b2BodyType::b2_staticBody);
 
-	contorn.add(App->physics->CreateChain(0, 0, triangleTop, 6, b2BodyType::b2_staticBody));
-	contorn.add(App->physics->CreateChain(1, 0, triangleMid, 6, b2BodyType::b2_staticBody));
-	contorn.add(App->physics->CreateChain(1, 0, triangleBot, 6, b2BodyType::b2_staticBody));
-	conLV.add(App->physics->CreateChain(0, 0, Black, 26, b2BodyType::b2_staticBody));
+	contorn=App->physics->CreateChain(0, 0, triangleTop, 6, b2BodyType::b2_staticBody);
+	contorn=App->physics->CreateChain(1, 0, triangleMid, 6, b2BodyType::b2_staticBody);
+	contorn=App->physics->CreateChain(1, 0, triangleBot, 6, b2BodyType::b2_staticBody);
+	conLV=App->physics->CreateChain(0, 0, Black, 26, b2BodyType::b2_staticBody);
 
 	
-
+	
 	
 	launcher = App->physics->CreateRectangle(442, 700, 18, 20, b2BodyType::b2_staticBody);
 	
 	
+	iPoint left_flipper_pos = { 154,734 };
+	PhysBody* Ball_l_A = App->physics->CreateCircle(left_flipper_pos.x, left_flipper_pos.y, 8, b2BodyType::b2_staticBody);
+	PhysBody* Chain_l_B = App->physics->CreateRectangle(left_flipper_pos.x, left_flipper_pos.y, 74, 15, b2BodyType::b2_dynamicBody);
 
-
+	l_flipper_joint = App->physics->CreateRevoluteJoint(Ball_l_A, Chain_l_B, -24.0f, 0.0f, 30, -15, 300, 0);
 
 	
 
+	iPoint right_flipper_pos = { 297,734 };
+	PhysBody* Ball_r_A = App->physics->CreateCircle(right_flipper_pos.x, right_flipper_pos.y, 8, b2BodyType::b2_staticBody);
+	PhysBody* Chain_r_B = App->physics->CreateRectangle(right_flipper_pos.x, right_flipper_pos.y, 74, 15, b2BodyType::b2_dynamicBody);
+	
+
+	r_flipper_joint = App->physics->CreateRevoluteJoint(Ball_r_A, Chain_r_B, 24.0f, 0.0f, 15, -30, 300, 0);
+
+
+
+	/*iPoint triangle_pos_a = { 60,70 };
+	PhysBody* Centertra = App->physics->CreateCircle(triangle_pos_a.x, triangle_pos_a.y, 3, b2BodyType::b2_staticBody);
+	PhysBody* Chain_l_B = App->physics->CreateChain(left_flipper_pos.x, left_flipper_pos.y, 74, 15, b2BodyType::b2_dynamicBody);
+
+	l_flipper_joint = App->physics->CreateRevoluteJoint(Ball_l_A, Chain_l_B, -24.0f, 0.0f, 30, -15, 300, 0);*/
+
+	
 	return ret;
 }
 
@@ -88,6 +109,7 @@ update_status ModuleSceneIntro::Update()
 		ray.x = App->input->GetMouseX();
 		ray.y = App->input->GetMouseY();
 	}
+	
 	App->renderer->Blit(fons, 0, 0, NULL, 0.0f, NULL);
 	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
@@ -110,9 +132,20 @@ update_status ModuleSceneIntro::Update()
 
 		if(ball==NULL)
 		
-		ball=	App->physics->CreateCircle(440, 680, 8, b2BodyType::b2_staticBody);
+		ball=	App->physics->CreateCircle(440, 680, 7, b2BodyType::b2_staticBody);
 		ball->listener = this;
 	}
+	
+	if ((App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT))
+		l_flipper_joint->SetMotorSpeed(-20);
+	else
+		l_flipper_joint->SetMotorSpeed(20);
+
+	//// Right flippers
+	if ((App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) || (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT))
+		r_flipper_joint->SetMotorSpeed(20);
+	else
+		r_flipper_joint->SetMotorSpeed(-20);
 
 	// Prepare for raycast ------------------------------------------------------
 
@@ -208,6 +241,15 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		bodyA->body->SetLinearVelocity(b2Vec2(0, -20));
 		//App->audio->PlayFx(bonus_fx);
 	}
+	if (bodyB == rbumper) {
+
+		bodyA->body->SetLinearVelocity(b2Vec2(-10, -10));
+	}
+	if (bodyB == lbumper) {
+
+		bodyA->body->SetLinearVelocity(b2Vec2(10, -10));
+	}
+	
 	/*
 	if(bodyA)
 	{

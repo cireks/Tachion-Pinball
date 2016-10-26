@@ -46,8 +46,8 @@ public:
 	PhysBody* CreateRectangle(int x, int y, int width, int height, b2BodyType type);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type);
-
-	
+	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB, float anchorx, float anchory, int upper_angle, int lower_angle, int max_torque, int speed);
+	PhysBody* CreatePolygon(int x, int y, int* points, int size);
 	bool ray_on;
 
 	// b2ContactListener ---

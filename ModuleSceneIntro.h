@@ -29,7 +29,7 @@ public:
 	PhysBody* conRT;
 	PhysBody* conRTop;
 	PhysBody* conMid;
-	PhysBody* tri1;
+	
 		
 	PhysBody* launcher;
 	PhysBody* ball;
@@ -44,7 +44,6 @@ public:
 	
 	b2RevoluteJoint* l_flipper_joint=nullptr;
 	b2RevoluteJoint* r_flipper_joint=nullptr;
-	b2RevoluteJoint* top_tri_join = nullptr;
 
 	// Pivot 0, 0
 	int Pinbla[138] = {
@@ -304,7 +303,29 @@ public:
 		371, 188,
 		377, 171
 	};
-	
+
+	int RampLeft[22] = {
+		78, 205,
+		67, 226,
+		55, 235,
+		45, 239,
+		78, 244,
+		73, 322,
+		65, 336,
+		51, 350,
+		37, 357,
+		75, 367,
+		85, 200
+	};
+	int RampRight[14] = {
+		18, 261,
+		25, 277,
+		31, 287,
+		39, 294,
+		45, 298,
+		52, 300,
+		15, 317
+	};
 	int bumperleft[8] = {
 		88, 570,
 		107, 632,

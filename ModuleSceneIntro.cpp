@@ -54,14 +54,9 @@ bool ModuleSceneIntro::Start()
 	rbumper = App->physics->CreateChain(0, 0, bumperright, 8, b2BodyType::b2_staticBody);
 	lbumper= App->physics->CreateChain(0, 0, bumperleft, 8, b2BodyType::b2_staticBody);
 
-	iPoint triangle_pos_a = { 56,250 };
-	tri1=App->physics->CreateChain(0, 0, triangleTop, 6, b2BodyType::b2_dynamicBody);
-	PhysBody* centertria = App->physics->CreateCircle(triangle_pos_a.x, triangle_pos_a.y, 3, b2BodyType::b2_staticBody);
+	contorn=App->physics->CreateChain(0, 0, RampLeft, 22, b2BodyType::b2_staticBody);
+	contorn = App->physics->CreateChain(0, 0, RampRight, 14, b2BodyType::b2_staticBody);
 
-	top_tri_join = App->physics->CreateRevoluteJoint(centertria, tri1, 0.0f, 0.0f, 0, 360, 300, 40);
-
-	contorn=App->physics->CreateChain(1, 0, triangleMid, 6, b2BodyType::b2_staticBody);
-	contorn=App->physics->CreateChain(1, 0, triangleBot, 6, b2BodyType::b2_staticBody);
 	conLV=App->physics->CreateChain(0, 0, Black, 26, b2BodyType::b2_staticBody);
 
 	
@@ -116,11 +111,17 @@ update_status ModuleSceneIntro::Update()
 	}
 	
 	App->renderer->Blit(fons, 0, 0, NULL, 0.0f, NULL);
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if(ball!= NULL){
+	int x, y;
+	ball->GetPosition(x, y);
+	App->renderer->Blit(boll, x, y );
+	}
+
+	/*if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
 		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 7, b2BodyType::b2_dynamicBody));
 		circles.getLast()->data->listener = this;
-	}
+	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
@@ -162,14 +163,6 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	// All draw functions ------------------------------------------------------
-	
-	/*SDL_Rect section2;
-	section2.x = 95;
-	section2.y = 855;
-	section2.h = 21;
-	section2.w = 62;
-
-	App->renderer->Blit(sprites, 168, 760, &section2, 1.0f, (-rev_joint_left->GetJointAngle() * RADTODEG), 10, 15);*/
 	/*p2List_item<PhysBody*>* c = circles.getFirst();
 
 	while (c != NULL)
@@ -251,7 +244,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	}
 	if (bodyB == conButtonB || bodyB == conButtonR || bodyB == conButtonV) {
 
-		bodyA->body->SetLinearVelocity(b2Vec2(0, -20));
+		bodyA->body->SetLinearVelocity(b2Vec2(0, -10));
 		//App->audio->PlayFx(bonus_fx);
 	}
 	if (bodyB == rbumper) {

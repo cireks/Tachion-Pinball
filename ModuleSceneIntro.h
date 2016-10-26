@@ -29,7 +29,7 @@ public:
 	PhysBody* conRT;
 	PhysBody* conRTop;
 	PhysBody* conMid;
-	
+	PhysBody* tri1;
 		
 	PhysBody* launcher;
 	PhysBody* ball;
@@ -44,6 +44,7 @@ public:
 	
 	b2RevoluteJoint* l_flipper_joint=nullptr;
 	b2RevoluteJoint* r_flipper_joint=nullptr;
+	b2RevoluteJoint* top_tri_join = nullptr;
 
 	// Pivot 0, 0
 	int Pinbla[138] = {

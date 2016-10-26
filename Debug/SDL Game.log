@@ -1,17 +1,1 @@
-﻿  ModuleSceneIntro.cpp
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(207): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(209): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(211): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(214): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(222): warning C4101: 'y': unreferenced local variable
-c:\users\ericap\desktop\tachion pinball\modulesceneintro.cpp(222): warning C4101: 'x': unreferenced local variable
-c:\program files (x86)\microsoft visual studio 14.0\vc\include\limits(210): warning C4577: 'noexcept' used with no exception handling mode specified; termination on exception is not guaranteed. Specify /EHsc
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  log.cpp
-  ModuleWindow.cpp
-  ModuleRender.cpp
-  ModulePlayer.cpp
-  ModuleInput.cpp
-  SDL Game.vcxproj -> C:\Users\ericap\Desktop\Tachion Pinball\Debug\Pinball tachion.exe
-  SDL Game.vcxproj -> C:\Users\ericap\Desktop\Tachion Pinball\Debug\Pinball tachion.pdb (Full PDB)
+﻿LINK : fatal error LNK1104: cannot open file 'C:\Users\ericap\Desktop\Tachion Pinball\Debug\Pinball tachion.exe'
